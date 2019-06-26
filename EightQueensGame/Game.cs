@@ -10,7 +10,7 @@ namespace EigthQueensGame
 
         public Game()
         {
-            Squares = new bool[7,7];
+            Squares = new bool[8,8];
             Playing = true;
         }
 
@@ -19,17 +19,51 @@ namespace EigthQueensGame
         {
             while (Playing)
             {
-                for (var i = 0; i < 7; i++)
-                {
-                    for (var j = 0; j < 7; j++)
-                    {
-                        Console.Write(Squares[i, j] ? "R " : " X ");
-                    }
-                    Console.WriteLine("");
-                }
+                ShowBoard();
+
+                InsertQueen(4, 6);
+                
+                
+                ShowBoard();
 
                 Playing = false;
             }
+        }
+
+        private void ShowBoard()
+        {
+            for (var j = 0; j < 8; j++)
+            {
+                for (var i = 0; i < 8; i++)
+                {
+                    Console.Write(Squares[i, j] ? " R " : " X ");
+                }
+                Console.WriteLine("");
+            }
+            Console.WriteLine("");
+        }
+
+        private void InsertQueen(int x, int y)
+        {
+            x -= 1;
+            y -= 1;
+            Squares[x, y] = true;
+
+            for (var i = 0; i < 8; i++)
+            {
+                Squares[x, i] = true;
+            }
+
+            for (var i = 0; i < 8; i++)
+            {
+                Squares[i, y] = true;
+            }
+
+//            for (var i = 0; i < 7; i++)
+//            {
+//                Squares[i, i] = true;
+//            }
+            
         }
     }
 }
