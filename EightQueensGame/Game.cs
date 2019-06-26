@@ -21,6 +21,7 @@ namespace EigthQueensGame
             {
                 ShowBoard();
 
+                //3 5
                 InsertQueen(4, 6);
                 
                 
@@ -36,7 +37,7 @@ namespace EigthQueensGame
             {
                 for (var i = 0; i < 8; i++)
                 {
-                    Console.Write(Squares[i, j] ? " R " : " X ");
+                    Console.Write(Squares[i, j] ? " [ RA ] " : $" [{i}, {j}] ");
                 }
                 Console.WriteLine("");
             }
@@ -45,25 +46,40 @@ namespace EigthQueensGame
 
         private void InsertQueen(int x, int y)
         {
-            x -= 1;
-            y -= 1;
             Squares[x, y] = true;
 
+            //Vertical Movement
             for (var i = 0; i < 8; i++)
             {
                 Squares[x, i] = true;
             }
-
+            
+            //Horizontal Movement
             for (var i = 0; i < 8; i++)
             {
                 Squares[i, y] = true;
             }
-
-//            for (var i = 0; i < 7; i++)
-//            {
-//                Squares[i, i] = true;
-//            }
             
+            //UP RIGHT MOVEMENT
+            for (var i = x; i < 8; i++)
+            {
+                var retval = y--;
+                Squares[i, retval] = true;
+            }
+            
+            //UP RIGHT MOVEMENT
+            for (var i = x; i == 0; i++)
+            {
+                var retval = y--;
+                Squares[i, retval] = true;
+            }
+            
+            //UP LEFT MOVEMENT
+            for (var i = x; i > 0; i--)
+            {
+                var retval = y++;
+                Squares[i, retval] = true;
+            }
         }
     }
 }
