@@ -2,32 +2,39 @@ using System;
 
 namespace EigthQueensGame
 {
+    public enum SquareStates
+    {
+        Null,
+        Queen,
+        QueenVision
+    }
     public class Game
     {
-        private bool[,] Squares;
-        private bool Playing;
+        private readonly SquareStates[,] _squares;
+        private bool _playing;
+        private int _x;
+        private int _y;
 
 
         public Game()
         {
-            Squares = new bool[8,8];
-            Playing = true;
+            _squares = new SquareStates[8,8];
+            _playing = true;
         }
 
 
         public void Play()
         {
-            while (Playing)
+            while (_playing)
             {
                 ShowBoard();
-
-                //3 5
-                InsertQueen(4, 6);
                 
-                
-                ShowBoard();
+                Console.WriteLine("Write a Position");
 
-                Playing = false;
+                var x = Console.ReadLine();
+                var y = Console.ReadLine();
+                
+                InsertQueen(int.Parse(x), int.Parse(y));
             }
         }
 
@@ -37,7 +44,18 @@ namespace EigthQueensGame
             {
                 for (var i = 0; i < 8; i++)
                 {
-                    Console.Write(Squares[i, j] ? " [ RA ] " : $" [{i}, {j}] ");
+                    if (_squares[i, j] == SquareStates.Queen)
+                    {
+                        Console.Write(" [ RA ] ");
+                    }
+                    else if (_squares[i, j] == SquareStates.QueenVision)
+                    {
+                        Console.Write(" [ QV ] ");
+                    }
+                    else
+                    {
+                        Console.Write($" [{i+1}, {j+1}] ");
+                    }
                 }
                 Console.WriteLine("");
             }
@@ -46,39 +64,87 @@ namespace EigthQueensGame
 
         private void InsertQueen(int x, int y)
         {
-            Squares[x, y] = true;
+            _x = x-1;
+            _y = y-1;
 
-            //Vertical Movement
+            _squares[_x, _y] = SquareStates.Queen;
+
+            HorizontalMovement(_y);
+            VerticalMovement(_x);
+            UpRightMovement(_x, _y);
+            UpLeftMovement(_x, _y);
+            DownRightMovement(_x, _y);
+            DownLeftMovement(_x, _y);
+        }
+
+        private void HorizontalMovement(int b)
+        {
             for (var i = 0; i < 8; i++)
             {
-                Squares[x, i] = true;
+                VerifyIfLose(i, _y);
             }
-            
-            //Horizontal Movement
+        }
+
+        private void VerticalMovement(int a)
+        {
             for (var i = 0; i < 8; i++)
             {
-                Squares[i, y] = true;
+                VerifyIfLose(a, i);
             }
-            
-            //UP RIGHT MOVEMENT
-            for (var i = x; i < 8; i++)
+        }
+
+        private void UpRightMovement(int a, int b)
+        {
+            do
             {
-                var retval = y--;
-                Squares[i, retval] = true;
+                VerifyIfLose(a, b);
+                a++;
+                b--;
+            } while (a > 0 && a < 7 && b > 0 && b < 7);
+        }
+
+        private void UpLeftMovement(int a, int b)
+        {
+            do
+            {
+                VerifyIfLose(a, b);
+                a--;
+                b--;
+            } while (a > 0 && a < 7 && b > 0 && b < 7);
+        }
+
+        private void DownRightMovement(int a, int b)
+        {
+            do
+            {
+                VerifyIfLose(a, b);
+                a++;
+                b++;
+            } while (a > 0 && a < 7 && b > 0 && b < 7);
+        }
+
+        private void DownLeftMovement(int a, int b)
+        {
+            do
+            {
+                VerifyIfLose(a, b);
+                a--;
+                b++;
+            } while (a > 0 && a < 7 && b > 0 && b < 7);
+        }
+
+        private void VerifyIfLose(int a, int b)
+        {
+            if (_squares[a, b] == SquareStates.Queen)
+            {
+                if (_x != a && _y != b)
+                {
+                    _playing = false;
+                }
             }
-            
-            //UP RIGHT MOVEMENT
-            for (var i = x; i == 0; i++)
+            else
             {
-                var retval = y--;
-                Squares[i, retval] = true;
-            }
-            
-            //UP LEFT MOVEMENT
-            for (var i = x; i > 0; i--)
-            {
-                var retval = y++;
-                Squares[i, retval] = true;
+                _squares[a, b] = SquareStates.QueenVision;
             }
         }
     }
