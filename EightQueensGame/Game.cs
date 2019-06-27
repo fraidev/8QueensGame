@@ -100,7 +100,7 @@ namespace EigthQueensGame
                 VerifyIfLose(a, b);
                 a++;
                 b--;
-            } while (a > 0 && a < 7 && b > 0 && b < 7);
+            } while (a >= 0 && a < 8 && b >= 0 && b < 8);
         }
 
         private void UpLeftMovement(int a, int b)
@@ -110,7 +110,7 @@ namespace EigthQueensGame
                 VerifyIfLose(a, b);
                 a--;
                 b--;
-            } while (a > 0 && a < 7 && b > 0 && b < 7);
+            } while (a >= 0 && a < 8 && b >= 0 && b < 8);
         }
 
         private void DownRightMovement(int a, int b)
@@ -120,7 +120,7 @@ namespace EigthQueensGame
                 VerifyIfLose(a, b);
                 a++;
                 b++;
-            } while (a > 0 && a < 7 && b > 0 && b < 7);
+            } while (a >= 0 && a < 8 && b >= 0 && b < 8);
         }
 
         private void DownLeftMovement(int a, int b)
@@ -130,7 +130,7 @@ namespace EigthQueensGame
                 VerifyIfLose(a, b);
                 a--;
                 b++;
-            } while (a > 0 && a < 7 && b > 0 && b < 7);
+            } while (a >= 0 && a < 8 && b >= 0 && b < 8);
         }
 
         private void VerifyIfLose(int a, int b)
